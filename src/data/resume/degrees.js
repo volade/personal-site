@@ -1,15 +1,21 @@
 const degrees = [
   {
-    school: 'Stanford University',
-    degree: 'M.S. Computational and Mathematical Engineering',
-    link: 'https://stanford.edu',
-    year: 2016,
+    school: 'Texas McCombs School of Business',
+    degree: 'Post-Graduate Certificate Program, Business Analytics',
+    link: 'http://www.mccombs.utexas.edu',
+    year: 2021,
   },
   {
-    school: 'University at Buffalo',
-    degree: 'B.S. Electrical Engineering, Computer Engineering',
-    link: 'https://buffalo.edu',
-    year: 2012,
+    school: 'California State University, Long Beach',
+    degree: 'B.S. Management Information Systems',
+    link: 'https://csulb.edu',
+    year: 2009,
+  },
+  {
+    school: 'California State University, Long Beach',
+    degree: 'B.S. Accountancy',
+    link: 'https://csulb.edu',
+    year: 2009,
   },
 ];
 

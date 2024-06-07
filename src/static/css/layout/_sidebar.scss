@@ -30,4 +30,28 @@
 			padding: _size(section-spacing) 0 0 0;
 			width: 100%;
 		}
+
+		#intro {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			// justify-content: center;
+			text-align: center; // This ensures that the text is also centered
+			// height: 100%; // Ensure the section takes the full height of its container
+		  
+			.logo {
+			  margin-bottom: 1em; // Add some space between the logo and the header
+			}
+		  
+			header {
+			  h2 {
+				margin: 0.5em 0;
+			  }
+			  
+			  p {
+				margin: 0;
+			  }
+			}
+		  }
+	
 	}
