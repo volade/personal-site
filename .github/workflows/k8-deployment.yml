@@ -1,0 +1,71 @@
+name: Deploy K8s objects
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'k8s/**'
+      - .github/workflows/k8-deployment.yml
+  workflow_dispatch:
+    
+
+jobs:
+  setup_helm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      # Install Helm
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+
+  k8s_apply:
+    runs-on: ubuntu-latest
+    env:
+      DEPLOYMENT_NAME: ${{ secrets.DEPLOYMENT_NAME || 'mysite-app' }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Setup Kubectl
+      - name: Setup Kubectl
+        uses: azure/setup-kubectl@v1
+
+      # Configure Kubectl
+      - name: Configure Kubectl
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBE_CONFIG }}" > ~/.kube/config
+
+      # Create Docker registry secret
+      - name: Create Docker registry secret
+        run: |
+          kubectl apply -f - <<EOF
+          apiVersion: v1
+          kind: Secret
+          metadata:
+            name: docker-registry-secret
+            namespace: default
+          type: kubernetes.io/dockerconfigjson
+          data:
+            .dockerconfigjson: $(echo -n "{\"auths\":{\"https://index.docker.io/v1/\":{\"username\":\"${{ secrets.DOCKERHUB_USERNAME }}\",\"password\":\"${{ secrets.DOCKERHUB_PASSWORD }}\",\"email\":\"${{ secrets.DOCKERHUB_EMAIL }}\",\"auth\":\"$(echo -n "${{ secrets.DOCKERHUB_USERNAME }}:${{ secrets.DOCKERHUB_PASSWORD }}" | base64)\"}}}" | base64 -w0)
+          EOF
+
+      # Apply K8s Manifests
+      - name: Apply K8s Manifests
+        run: |
+          kubectl apply -f k8s/
+
+      # Trigger K8s Deployment Rollout
+      - name: Trigger K8s Deployment Rollout
+        run: |
+          kubectl rollout restart deployments/${{ env.DEPLOYMENT_NAME }}
+
+      # Verify K8s Deployment Rollout
+      - name: Verify K8s Deployment Rollout
+        run: |
+          kubectl rollout status deployments/${{ env.DEPLOYMENT_NAME }}
