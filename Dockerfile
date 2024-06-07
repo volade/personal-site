@@ -7,6 +7,8 @@ WORKDIR /code
 RUN apk add --no-cache bash curl \
     && rm /bin/sh && ln -s /bin/bash /bin/sh
 
+ENV NVM_DIR /usr/local/nvm
+
 # Install nvm, Node.js, and npm
 RUN mkdir -p $NVM_DIR \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash \
@@ -15,8 +17,6 @@ RUN mkdir -p $NVM_DIR \
     && nvm alias default $(nvm current) \
     && nvm use default \
     && echo 'export PATH="$NVM_DIR/versions/node/$(nvm current)/bin:$PATH"' >> $HOME/.bashrc
-
-ENV PATH $NVM_DIR/versions/node/v$NODE_VERSION/bin:$PATH
 
 # Set environment variables
 ENV PATH $NVM_DIR/versions/node/v$(node -v)/bin:$PATH
