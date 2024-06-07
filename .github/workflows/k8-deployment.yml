@@ -1,11 +1,11 @@
 name: Deploy K8s objects
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'k8s/**'
-      - .github/workflows/k8-deployment.yml
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - 'k8s/**'
+  #     - .github/workflows/k8-deployment.yml
   workflow_dispatch:
     
 
