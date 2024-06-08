@@ -1,0 +1,12 @@
+controller:
+  name: mysite-ingress-controller
+  replicaCount: 1
+  service:
+    name: mysite-ingress-controller
+    type: LoadBalancer
+  metrics:
+    enabled: true
+  ingressClassResource:
+    name: mysite-nginx
+    enabled: true
+    default: true
