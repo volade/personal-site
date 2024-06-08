@@ -1,35 +1,8 @@
 ---
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: mysite-pv
-spec:
-  accessModes:
-    - ReadWriteOnce
-  capacity:
-    storage: 1Gi
-  hostPath:
-    path: /mnt/mysite
-
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mysite-pvc
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysite
+  name: mysite-app
 spec:
   replicas: 1
   selector:
@@ -46,48 +19,7 @@ spec:
       - name: mysite
         image: volade/mysite:latest
         ports:
-        - containerPort: 3000
-        volumeMounts:
-        - name: mysite-pv
-          mountPath: /app/build
-      volumes:
-      - name: mysite-pv
-        persistentVolumeClaim:
-          claimName: mysite-pvc
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: nginx
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mysite-app
-  template:
-    metadata:
-      labels:
-        app: mysite-app
-    spec:
-      containers:
-      - name: nginx
-        image: nginx:alpine
-        ports:
         - containerPort: 80
-        volumeMounts:
-        - name: mysite-pv
-          mountPath: /usr/share/nginx/html
-        - name: mysite-nginx-config
-          mountPath: /etc/nginx/custom-nginx.conf
-          subPath: custom-nginx.conf
-      volumes:
-      - name: mysite-pv
-        persistentVolumeClaim:
-          claimName: mysite-pvc
-      - name: mysite-nginx-config
-        configMap:
-          name: mysite-nginx-config
 
 ---
 apiVersion: v1
@@ -97,7 +29,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: nginx
+    app: mysite-app
   ports:
     - name: nginx-port
       port: 80

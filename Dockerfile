@@ -5,6 +5,7 @@ FROM node:20-alpine AS build
 WORKDIR /app
 
 # Copy the project files
+COPY package*.json ./
 COPY . .
 
 # Install Node.js dependencies
@@ -13,14 +14,18 @@ RUN npm install
 # Build the application
 RUN npm run build
 
-# Stage 2: Create a minimal image with the build files
-FROM alpine:latest
-
-# Set the working directory
-WORKDIR /app
+# Stage 2: Create a minimal image with the build files and custom Nginx configuration
+FROM nginx:alpine
 
 # Copy the built files from the previous stage
-COPY --from=build /app/build /app/build
+COPY --from=build /app/build /usr/share/nginx/html
 
-# This container just provides the build files to be served by Nginx
-CMD ["npm","start"]
+# Copy custom Nginx configuration
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx
+CMD ["nginx", "-g", "daemon off;"]
+
