@@ -18,7 +18,7 @@ controller:
       configMap:
         name: mysite-nginx-config
   extraVolumeMounts:
-    - name: mysite-nginx-config
+    - name: mysite-nginx
       mountPath: /etc/nginx/mysite-nginx.conf
       subPath: mysite-nginx.conf
 
