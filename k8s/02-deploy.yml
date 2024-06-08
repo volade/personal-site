@@ -1,9 +1,7 @@
-
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysite
+  name: mysite-app
 spec:
   replicas: 1
   selector:
@@ -14,35 +12,32 @@ spec:
       labels:
         app: mysite-app
     spec:
-      imagePullSecrets:
-        - name: docker-registry-secret
+      volumes:
+      - name: shared-volume
+        emptyDir: {}
+
       containers:
-      - name: mysite
+      - name: mysite-app
         image: volade/mysite:latest
-        ports:
-        - containerPort: 3000
+        volumeMounts:
+        - mountPath: /app/build
+          name: shared-volume
+
       - name: nginx
-        image: nginx
+        image: nginx:alpine
         ports:
         - containerPort: 80
         volumeMounts:
-        - name: mysite-nginx-config-volume
-          mountPath: /etc/nginx/custom-nginx.conf
-          subPath: custom-nginx.conf
+        - mountPath: /usr/share/nginx/html
+          name: shared-volume
+        - mountPath: /etc/nginx/nginx.conf
+          subPath: nginx.conf
+          name: config-volume
+
       volumes:
-      - name: mysite-nginx-config-volume
+      - name: config-volume
         configMap:
           name: mysite-nginx-config
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysite-svc
-spec:
-  type: LoadBalancer
-  selector:
-    app: mysite-app
-  ports:
-    - name: nginx-port
-      port: 80
-      targetPort: 80
+          items:
+            - key: custom-nginx.conf
+              path: nginx.conf
