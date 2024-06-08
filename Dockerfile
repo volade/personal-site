@@ -23,4 +23,4 @@ WORKDIR /app
 COPY --from=build /app/build /app/build
 
 # This container just provides the build files to be served by Nginx
-CMD ["sh", "-c", "while true; do sleep 30; done;"]
+CMD ["npm","start"]
