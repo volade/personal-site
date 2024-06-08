@@ -5,27 +5,16 @@ metadata:
   name: mysite-nginx-config
   namespace: default
 data:
-  custom-nginx.conf: |
+  mysite-nginx.conf: |
     server {
         listen 80;
-        server_name http://mysite-svc;  # Replace with your domain name or IP address
+        server_name victorolade.com;
 
         location / {
-            proxy_pass http://mysite-svc;  # Proxy requests to react app
+            proxy_pass http://172.233.177.238:32039;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
         }
-
-        location /static/ {
-            alias /build/static/;
-        }
-
-        location /media/ {
-            alias /build/images/;
-        }
-
-        # Optional security headers
-        add_header Content-Security-Policy "default-src 'self';";
-        add_header X-Frame-Options "SAMEORIGIN";
-        add_header X-Content-Type-Options "nosniff";
-        add_header Referrer-Policy "no-referrer-when-downgrade";
-        add_header Permissions-Policy "geolocation=(), midi=(), sync-xhr=(), microphone=(), camera=(), magnetometer=(), gyroscope=(), speaker=(), fullscreen=(), payment=()";
     }
