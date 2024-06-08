@@ -8,10 +8,10 @@ data:
   custom-nginx.conf: |
     server {
         listen 80;
-        server_name http://mysite:80;  # Replace with your domain name or IP address
+        server_name http://mysite-svc;  # Replace with your domain name or IP address
 
         location / {
-            proxy_pass http://mysite:80;  # Proxy requests to react app
+            proxy_pass http://mysite-svc;  # Proxy requests to react app
         }
 
         location /static/ {

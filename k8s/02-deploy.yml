@@ -8,11 +8,11 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mysite
+      app: mysite-app
   template:
     metadata:
       labels:
-        app: mysite
+        app: mysite-app
     spec:
       imagePullSecrets:
         - name: docker-registry-secret
@@ -27,8 +27,8 @@ spec:
         - containerPort: 80
         volumeMounts:
         - name: mysite-nginx-config-volume
-          mountPath: /etc/nginx/nginx.conf
-          subPath: nginx.conf
+          mountPath: /etc/nginx/custom-nginx.conf
+          subPath: custom-nginx.conf
       volumes:
       - name: mysite-nginx-config-volume
         configMap:
@@ -37,11 +37,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysite
+  name: mysite-svc
 spec:
   type: LoadBalancer
   selector:
-    app: mysite
+    app: mysite-app
   ports:
     - name: nginx-port
       port: 80
