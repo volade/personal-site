@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysite-nginx-config
+  namespace: default
+data:
+  custom-nginx.conf: |
+    server {
+        listen 80;
+        server_name http://mysite:80;  # Replace with your domain name or IP address
+
+        location / {
+            proxy_pass http://mysite:80;  # Proxy requests to react app
+        }
+
+        location /static/ {
+            alias /build/static/;
+        }
+
+        location /media/ {
+            alias /build/images/;
+        }
+
+        # Optional security headers
+        add_header Content-Security-Policy "default-src 'self';";
+        add_header X-Frame-Options "SAMEORIGIN";
+        add_header X-Content-Type-Options "nosniff";
+        add_header Referrer-Policy "no-referrer-when-downgrade";
+        add_header Permissions-Policy "geolocation=(), midi=(), sync-xhr=(), microphone=(), camera=(), magnetometer=(), gyroscope=(), speaker=(), fullscreen=(), payment=()";
+    }
