@@ -10,3 +10,15 @@ controller:
     name: mysite-nginx
     enabled: true
     default: true
+  config:
+    custom-http-snippet: |
+      include /etc/nginx/mysite-nginx.conf;
+  extraVolumes:
+    - name: mysite-nginx
+      configMap:
+        name: mysite-nginx-config
+  extraVolumeMounts:
+    - name: mysite-nginx-config
+      mountPath: /etc/nginx/mysite-nginx.conf
+      subPath: mysite-nginx.conf
+
