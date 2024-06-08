@@ -27,10 +27,11 @@ kind: Service
 metadata:
   name: mysite-svc
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: mysite-app
   ports:
     - name: nginx-port
       port: 80
       targetPort: 80
+      nodePort: 32039
