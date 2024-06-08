@@ -37,6 +37,6 @@ jobs:
       - name: Sync files to hosting
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with: 
-          server: ftp://2a01:7e04::f03c:94ff:fee6:37d9
+          server: 2a01:7e04::f03c:94ff:fee6:37d9:21
           username: mysite
           password: ${{ secrets.FTP_PASSWORD }}
