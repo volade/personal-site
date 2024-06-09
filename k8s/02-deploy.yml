@@ -27,33 +27,33 @@ kind: Service
 metadata:
   name: mysite-svc
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     app: mysite-app
   ports:
     - name: nginx-port
       port: 80
       targetPort: 80
-      nodePort: 32039
+      # nodePort: 32039
 
----
+# ---
 
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: mysite-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  ingressClassName: mysite-nginx
-  rules:
-  - host: victorolade.com
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: mysite-svc
-            port:
-              number: 80
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: mysite-ingress
+#   annotations:
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   ingressClassName: mysite-nginx
+#   rules:
+#   - host: victorolade.com
+#     http:
+#       paths:
+#       - path: /
+#         pathType: Prefix
+#         backend:
+#           service:
+#             name: mysite-svc
+#             port:
+#               number: 80
