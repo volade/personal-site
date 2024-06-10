@@ -28,16 +28,15 @@ At Cart.com, I have learned how to coordinate efforts across the vast field of d
 
 - I fluctuate between INTP/ENTP when it comes to Myers Briggs.
 - I enjoy reading classic literature.
-- I enjoy learning theology, natural science, and technology.
+- I enjoy learning natural science, history, and technology.
 - My wife and I spend more time browsing Netflix or Prime for something good to watch than actually watching something; we've watched a few Korean Dramas together but she refuses to watch anything anime.
 - One of my favorite books is called Mindset by Carol Dweck. I think grit and character is the key to success.
 
 # I dream of
 
 - Creating products people love using
-- Getting more involved at church
 - Spending more time connecting with and serving others
 - Learning an instrument
 - Writing good fiction or at least helping others to
 - Travelling the world
-- Being able to dunk a basketball again
+- Running a mile in 6 minutes

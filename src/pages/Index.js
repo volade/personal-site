@@ -22,7 +22,7 @@ const Index = () => (
         <Link to="/resume">resume</Link>, {' '}
         or <Link to="/contact">contact</Link> me.
       </p>
-      <p> Original Source available <a href="https://github.com/mldangello/personal-site">here</a>.</p>
+      <p> Original Source available <a href="https://github.com/volade/personal-site">here</a>.</p>
     </article>
   </Main>
 );
